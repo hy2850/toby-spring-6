@@ -11,7 +11,38 @@ import java.util.stream.Collectors;
 
 public class PaymentService {
 
-    public static Payment prepare(Long orderId, String currency, BigDecimal payAmount) throws IOException {
+    private Long orderId;
+    private String currency;
+    private BigDecimal payAmount;
+
+    public PaymentService(Long orderId, String currency, BigDecimal payAmount) {
+        this.orderId = orderId;
+        this.currency = currency;
+        this.payAmount = payAmount;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public BigDecimal getPayAmount() {
+        return payAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "PaymentService{" +
+            "orderId=" + orderId +
+            ", currency='" + currency + '\'' +
+            ", payAmount=" + payAmount +
+            '}';
+    }
+
+    public Payment prepare() throws IOException {
         // 환율 정보 API 호출
         // https://open.er-api.com/v6/latest/USD
         var url = new URL("https://open.er-api.com/v6/latest/" + currency);
@@ -30,7 +61,8 @@ public class PaymentService {
     }
 
     public static void main(String[] args) throws IOException {
-        var payment = PaymentService.prepare(123L, "USD", BigDecimal.valueOf(100));
+        var paymentService = new PaymentService(123L, "USD", BigDecimal.valueOf(100));
+        var payment = paymentService.prepare();
         System.out.println(payment);
     }
 }
