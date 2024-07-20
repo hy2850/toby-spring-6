@@ -9,11 +9,15 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class PaymentService {
 
     private Long orderId;
     private String currency;
     private BigDecimal payAmount;
+
+    private static String TARGET_CURRENCY = "KRW";
 
     public PaymentService(Long orderId, String currency, BigDecimal payAmount) {
         this.orderId = orderId;
@@ -54,10 +58,15 @@ public class PaymentService {
         System.out.println(response);
 
         // 환율 정보 JSON 변환
+        var objectMapper = new ObjectMapper();
+        var exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
+        var exchangeRate = exchangeRateInfo.rates().get(TARGET_CURRENCY);
 
         // 환율 계산
+        var convertedPayAmount = payAmount.multiply(exchangeRate);
+        var validUntil = LocalDateTime.now().plusMinutes(30);
 
-        return new Payment(orderId, currency, payAmount, BigDecimal.ZERO, BigDecimal.ZERO, LocalDateTime.now());
+        return new Payment(orderId, currency, payAmount, exchangeRate, convertedPayAmount, validUntil);
     }
 
     public static void main(String[] args) throws IOException {
