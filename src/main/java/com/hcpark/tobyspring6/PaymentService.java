@@ -47,26 +47,26 @@ public class PaymentService {
     }
 
     public Payment prepare() throws IOException {
-        // 환율 정보 API 호출
-        // https://open.er-api.com/v6/latest/USD
-        var url = new URL("https://open.er-api.com/v6/latest/" + currency);
-        var connection = (HttpURLConnection) url.openConnection();
-        var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-        var response = br.lines().collect(Collectors.joining());
-
-        System.out.println(response);
-
-        // 환율 정보 JSON 변환
-        var objectMapper = new ObjectMapper();
-        var exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
-        var exchangeRate = exchangeRateInfo.rates().get(TARGET_CURRENCY);
+        var exchangeRate = getExchangeRate();
 
         // 환율 계산
         var convertedPayAmount = payAmount.multiply(exchangeRate);
         var validUntil = LocalDateTime.now().plusMinutes(30);
 
         return new Payment(orderId, currency, payAmount, exchangeRate, convertedPayAmount, validUntil);
+    }
+
+    private BigDecimal getExchangeRate() throws IOException {
+        // 환율 정보 API 호출
+        var url = new URL("https://open.er-api.com/v6/latest/" + currency);
+        var connection = (HttpURLConnection) url.openConnection();
+        var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        var response = br.lines().collect(Collectors.joining());
+
+        // 환율 정보 JSON 변환
+        var objectMapper = new ObjectMapper();
+        var exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
+        return exchangeRateInfo.rates().get(TARGET_CURRENCY);
     }
 
     public static void main(String[] args) throws IOException {
