@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class PaymentService {
+public abstract class PaymentService {
 
     private Long orderId;
     private String currency;
@@ -56,22 +56,11 @@ public class PaymentService {
         return new Payment(orderId, currency, payAmount, exchangeRate, convertedPayAmount, validUntil);
     }
 
-    private BigDecimal getExchangeRate() throws IOException {
-        // 환율 정보 API 호출
-        var url = new URL("https://open.er-api.com/v6/latest/" + currency);
-        var connection = (HttpURLConnection) url.openConnection();
-        var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        var response = br.lines().collect(Collectors.joining());
+    abstract BigDecimal getExchangeRate();
 
-        // 환율 정보 JSON 변환
-        var objectMapper = new ObjectMapper();
-        var exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
-        return exchangeRateInfo.rates().get(TARGET_CURRENCY);
-    }
-
-    public static void main(String[] args) throws IOException {
-        var paymentService = new PaymentService(123L, "USD", BigDecimal.valueOf(100));
-        var payment = paymentService.prepare();
-        System.out.println(payment);
-    }
+//    public static void main(String[] args) throws IOException {
+//        var paymentService = new PaymentService(123L, "USD", BigDecimal.valueOf(100));
+//        var payment = paymentService.prepare();
+//        System.out.println(payment);
+//    }
 }
