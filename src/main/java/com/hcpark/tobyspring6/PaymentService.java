@@ -1,23 +1,16 @@
 package com.hcpark.tobyspring6;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class PaymentService {
 
-    private Long orderId;
-    private String currency;
-    private BigDecimal payAmount;
+    Long orderId;
+    String currency;
+    BigDecimal payAmount;
 
-    private static String TARGET_CURRENCY = "KRW";
+    static String TARGET_CURRENCY = "KRW";
 
     public PaymentService(Long orderId, String currency, BigDecimal payAmount) {
         this.orderId = orderId;
@@ -56,11 +49,5 @@ public abstract class PaymentService {
         return new Payment(orderId, currency, payAmount, exchangeRate, convertedPayAmount, validUntil);
     }
 
-    abstract BigDecimal getExchangeRate();
-
-//    public static void main(String[] args) throws IOException {
-//        var paymentService = new PaymentService(123L, "USD", BigDecimal.valueOf(100));
-//        var payment = paymentService.prepare();
-//        System.out.println(payment);
-//    }
+    abstract BigDecimal getExchangeRate() throws IOException;
 }
