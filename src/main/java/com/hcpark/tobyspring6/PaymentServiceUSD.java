@@ -14,13 +14,11 @@ public class PaymentServiceUSD extends PaymentService {
 
     @Override
     BigDecimal getExchangeRate(String currency) throws IOException {
-        // 환율 정보 API 호출
         var url = new URL("https://open.er-api.com/v6/latest/" + currency);
         var connection = (HttpURLConnection) url.openConnection();
         var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         var response = br.lines().collect(Collectors.joining());
 
-        // 환율 정보 JSON 변환
         var objectMapper = new ObjectMapper();
         var exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
         return exchangeRateInfo.rates().get(TARGET_CURRENCY);
