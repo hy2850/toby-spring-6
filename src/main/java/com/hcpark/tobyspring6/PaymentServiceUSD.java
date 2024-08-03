@@ -12,12 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PaymentServiceUSD extends PaymentService {
 
-    public PaymentServiceUSD(Long orderId, String currency, BigDecimal payAmount) {
-        super(orderId, currency, payAmount);
-    }
-
     @Override
-    BigDecimal getExchangeRate() throws IOException {
+    BigDecimal getExchangeRate(String currency) throws IOException {
         // 환율 정보 API 호출
         var url = new URL("https://open.er-api.com/v6/latest/" + currency);
         var connection = (HttpURLConnection) url.openConnection();
@@ -31,8 +27,8 @@ public class PaymentServiceUSD extends PaymentService {
     }
 
     public static void main(String[] args) throws IOException {
-        var paymentService = new PaymentServiceUSD(123L, "USD", BigDecimal.valueOf(100));
-        var payment = paymentService.prepare();
+        var paymentService = new PaymentServiceUSD();
+        var payment = paymentService.prepare(123L, "USD", BigDecimal.valueOf(100));
         System.out.println(payment);
     }
 }
