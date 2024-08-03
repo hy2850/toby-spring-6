@@ -4,17 +4,18 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public abstract class PaymentService {
-
-    protected static String TARGET_CURRENCY = "KRW";
+public class PaymentService {
 
     public Payment prepare(Long orderId, String currency, BigDecimal payAmount) throws IOException {
-        var exchangeRate = getExchangeRate(currency);
+//        var exRateProvider = new WebApiExRateProvider();
+//        var exchangeRate = exRateProvider.getWebExchangeRate(currency);
+
+        var exRateProvider = new SimpleExRateProvider();
+        var exchangeRate = exRateProvider.getSimpleExchangeRate(currency);
+
         var convertedPayAmount = payAmount.multiply(exchangeRate);
         var validUntil = LocalDateTime.now().plusMinutes(30);
 
         return new Payment(orderId, currency, payAmount, exchangeRate, convertedPayAmount, validUntil);
     }
-
-    abstract BigDecimal getExchangeRate(String currency) throws IOException;
 }
