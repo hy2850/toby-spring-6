@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class PaymentServiceUSD extends PaymentService {
+public class WebApiExRatePaymentService extends PaymentService {
 
     @Override
     BigDecimal getExchangeRate(String currency) throws IOException {
