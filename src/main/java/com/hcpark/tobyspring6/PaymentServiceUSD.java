@@ -23,10 +23,4 @@ public class PaymentServiceUSD extends PaymentService {
         var exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
         return exchangeRateInfo.rates().get(TARGET_CURRENCY);
     }
-
-    public static void main(String[] args) throws IOException {
-        var paymentService = new PaymentServiceUSD();
-        var payment = paymentService.prepare(123L, "USD", BigDecimal.valueOf(100));
-        System.out.println(payment);
-    }
 }
