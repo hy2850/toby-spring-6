@@ -1,12 +1,10 @@
 package com.hcpark.tobyspring6;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
-public class SimpleExRatePaymentService extends PaymentService {
+public class SimpleExRateProvider {
 
-    @Override
-    BigDecimal getExchangeRate(String currency) throws IOException {
+    BigDecimal getSimpleExchangeRate(String currency) {
         if(currency.equals("USD")) {
             return BigDecimal.valueOf(1200L);
         }

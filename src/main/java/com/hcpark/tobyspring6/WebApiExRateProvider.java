@@ -10,10 +10,11 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class WebApiExRatePaymentService extends PaymentService {
+public class WebApiExRateProvider {
 
-    @Override
-    BigDecimal getExchangeRate(String currency) throws IOException {
+    private static String TARGET_CURRENCY = "KRW";
+
+    BigDecimal getWebExchangeRate(String currency) throws IOException {
         var url = new URL("https://open.er-api.com/v6/latest/" + currency);
         var connection = (HttpURLConnection) url.openConnection();
         var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
