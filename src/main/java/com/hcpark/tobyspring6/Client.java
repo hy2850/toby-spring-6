@@ -9,7 +9,16 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class Client {
     public static void main(String[] args) throws IOException {
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(ObjectFactory.class);
-        var paymentService = beanFactory.getBean(PaymentService.class);
+
+//        var paymentService = beanFactory.getBean(PaymentService.class);
+//        var paymentService2 = beanFactory.getBean(PaymentService.class);
+//        System.out.println(paymentService == paymentService2); // true
+
+        var objectFactory = beanFactory.getBean(ObjectFactory.class);
+        var paymentService = objectFactory.getPaymentService();
+        var paymentService2 = objectFactory.getPaymentService();
+        System.out.println(paymentService == paymentService2); // true
+
         var payment = paymentService.prepare(123L, "USD", BigDecimal.valueOf(100));
         System.out.println(payment);
     }
