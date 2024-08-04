@@ -3,6 +3,7 @@ package com.hcpark.tobyspring6;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+//@Component
 public class SimpleExRateProvider implements  ExRateProvider {
 
     @Override

@@ -8,8 +8,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Component
 public class WebApiExRateProvider implements ExRateProvider {
 
     private static String TARGET_CURRENCY = "KRW";
