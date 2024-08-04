@@ -6,18 +6,16 @@ import java.time.LocalDateTime;
 
 public class PaymentService {
 
-    private final WebApiExRateProvider exRateProvider;
+    private final ExRateProvider exRateProvider;
 
     public PaymentService() {
-        this.exRateProvider = new WebApiExRateProvider();
+        // 구체에 강하게 의존 -> 사용하고 싶은 구체를 바꾸고 싶다면 여기 코드를 바꿔야; 확장성 떨어짐
+//        this.exRateProvider = new WebApiExRateProvider();
+        this.exRateProvider = new SimpleExRateProvider();
     }
 
     public Payment prepare(Long orderId, String currency, BigDecimal payAmount) throws IOException {
-//        var exRateProvider = new WebApiExRateProvider();
-        var exchangeRate = exRateProvider.getWebExchangeRate(currency);
-
-//        var exRateProvider = new SimpleExRateProvider();
-//        var exchangeRate = exRateProvider.getSimpleExchangeRate(currency);
+        var exchangeRate = exRateProvider.getExchangeRate(currency);
 
         var convertedPayAmount = payAmount.multiply(exchangeRate);
         var validUntil = LocalDateTime.now().plusMinutes(30);
