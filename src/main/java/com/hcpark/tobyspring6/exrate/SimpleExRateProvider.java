@@ -1,10 +1,12 @@
-package com.hcpark.tobyspring6;
+package com.hcpark.tobyspring6.exrate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import com.hcpark.tobyspring6.payment.ExRateProvider;
+
 //@Component
-public class SimpleExRateProvider implements  ExRateProvider {
+public class SimpleExRateProvider implements ExRateProvider {
 
     @Override
     public BigDecimal getExchangeRate(String currency) throws IOException {

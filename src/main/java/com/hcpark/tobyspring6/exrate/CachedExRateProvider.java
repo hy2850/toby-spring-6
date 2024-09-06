@@ -1,9 +1,11 @@
-package com.hcpark.tobyspring6;
+package com.hcpark.tobyspring6.exrate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import com.hcpark.tobyspring6.payment.ExRateProvider;
 
 public class CachedExRateProvider implements ExRateProvider {
 

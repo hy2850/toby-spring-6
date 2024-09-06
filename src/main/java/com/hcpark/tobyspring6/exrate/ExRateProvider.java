@@ -1,4 +1,4 @@
-package com.hcpark.tobyspring6;
+package com.hcpark.tobyspring6.exrate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
