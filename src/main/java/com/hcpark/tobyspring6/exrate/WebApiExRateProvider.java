@@ -1,4 +1,4 @@
-package com.hcpark.tobyspring6;
+package com.hcpark.tobyspring6.exrate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hcpark.tobyspring6.payment.ExRateProvider;
 
 //@Component
 public class WebApiExRateProvider implements ExRateProvider {
