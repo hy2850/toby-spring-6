@@ -8,7 +8,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -20,16 +19,14 @@ import com.hcpark.tobyspring6.TestObjectFactory;
 class PaymentServiceSpringTest {
 
     @Autowired
-    BeanFactory beanFactory;
+    PaymentService paymentService;
 
     @Test
     @DisplayName("스프링 테스트 컨테이너 활용한 PaymentService 테스트")
     void prepare() throws IOException {
         // given
-//        BeanFactory beanFactory = new AnnotationConfigApplicationContext(TestObjectFactory.class);
 
         // when
-        var paymentService = beanFactory.getBean(PaymentService.class);
         var payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
 
         // then
