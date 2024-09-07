@@ -27,7 +27,7 @@ class PaymentServiceTest {
 
         // 2. 원화 환산 금액 맞는지
         Assertions.assertThat(payment.convertedPayAmount())
-            .isEqualTo(payment.exchangeRate().multiply(payment.payAmount()));
+            .isEqualByComparingTo(payment.exchangeRate().multiply(payment.payAmount()));
 
         // 3. 원화 환산 금액의 유효시간 유효한지
         Assertions.assertThat(payment.validUntil()).isAfter(LocalDateTime.now());
@@ -51,9 +51,9 @@ class PaymentServiceTest {
 
         // then
         // 1. 환율 정보 가져오기
-        Assertions.assertThat(payment.exchangeRate()).isEqualTo(exRateInput);
+        Assertions.assertThat(payment.exchangeRate()).isEqualByComparingTo(exRateInput);
 
         // 2. 원화 환산 금액 맞는지
-        Assertions.assertThat(payment.convertedPayAmount()).isEqualTo(convertedAmountToTest);
+        Assertions.assertThat(payment.convertedPayAmount()).isEqualByComparingTo(convertedAmountToTest);
     }
 }
