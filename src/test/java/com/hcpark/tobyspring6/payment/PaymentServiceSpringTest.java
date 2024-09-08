@@ -1,6 +1,5 @@
 package com.hcpark.tobyspring6.payment;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -27,7 +26,7 @@ class PaymentServiceSpringTest {
 
     @Test
     @DisplayName("스프링 테스트 컨테이너 활용한 PaymentService 테스트")
-    void prepare() throws IOException {
+    void prepare() {
         // given
 
         // when

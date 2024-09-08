@@ -1,6 +1,5 @@
 package com.hcpark.tobyspring6.payment;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
@@ -27,7 +26,7 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("PaymentService 비즈니스 로직 검증")
-    void prepare() throws IOException {
+    void prepare() {
         // given
         var paymentService = new PaymentService(new WebApiExRateProvider(), this.clock);
 
@@ -49,13 +48,13 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("ExRateProviderStub 사용해서 PaymentService 비즈니스 로직 검증")
-    void prepareWithStub() throws IOException {
+    void prepareWithStub() {
         testConvertedAmount(BigDecimal.valueOf(100), BigDecimal.valueOf(1_000));
         testConvertedAmount(BigDecimal.valueOf(300), BigDecimal.valueOf(3_000));
         testConvertedAmount(BigDecimal.valueOf(500), BigDecimal.valueOf(5_000));
     }
 
-    private void testConvertedAmount(BigDecimal exRateInput, BigDecimal convertedAmountToTest) throws IOException {
+    private void testConvertedAmount(BigDecimal exRateInput, BigDecimal convertedAmountToTest) {
         // given
         var paymentService = new PaymentService(new ExRateProviderStub(exRateInput), this.clock);
 

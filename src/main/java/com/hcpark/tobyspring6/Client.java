@@ -1,6 +1,5 @@
 package com.hcpark.tobyspring6;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
@@ -8,7 +7,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Client {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(PaymentConfig.class);
 
 //        var paymentService = beanFactory.getBean(PaymentService.class);

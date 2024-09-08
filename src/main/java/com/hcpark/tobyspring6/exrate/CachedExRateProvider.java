@@ -1,6 +1,5 @@
 package com.hcpark.tobyspring6.exrate;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -18,7 +17,7 @@ public class CachedExRateProvider implements ExRateProvider {
     }
 
     @Override
-    public BigDecimal getExchangeRate(String currency) throws IOException {
+    public BigDecimal getExchangeRate(String currency) {
         if (Objects.isNull(cachedExchangeRate) || cacheExpireDateTime.isBefore(LocalDateTime.now())) {
             cachedExchangeRate = target.getExchangeRate(currency);
             cacheExpireDateTime = LocalDateTime.now().plusSeconds(3); // 3초 timeout
