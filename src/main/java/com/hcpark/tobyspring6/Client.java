@@ -9,13 +9,13 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Client {
     public static void main(String[] args) throws IOException, InterruptedException {
-        BeanFactory beanFactory = new AnnotationConfigApplicationContext(ObjectFactory.class);
+        BeanFactory beanFactory = new AnnotationConfigApplicationContext(PaymentConfig.class);
 
 //        var paymentService = beanFactory.getBean(PaymentService.class);
 //        var paymentService2 = beanFactory.getBean(PaymentService.class);
 //        System.out.println(paymentService == paymentService2); // true
 
-        var objectFactory = beanFactory.getBean(ObjectFactory.class);
+        var objectFactory = beanFactory.getBean(PaymentConfig.class);
         var paymentService = objectFactory.getPaymentService();
         var paymentService2 = objectFactory.getPaymentService();
         System.out.println(paymentService == paymentService2); // true
