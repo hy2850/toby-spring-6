@@ -1,6 +1,5 @@
 package com.hcpark.tobyspring6.payment;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 
@@ -15,7 +14,7 @@ public class PaymentService {
         this.clock = clock;
     }
 
-    public Payment prepare(Long orderId, String currency, BigDecimal payAmount) throws IOException {
+    public Payment prepare(Long orderId, String currency, BigDecimal payAmount) {
         var exchangeRate = exRateProvider.getExchangeRate(currency);
 
         return Payment.createPayment(orderId, currency, payAmount, exchangeRate, this.clock);

@@ -1,6 +1,5 @@
 package com.hcpark.tobyspring6.exrate;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.hcpark.tobyspring6.payment.ExRateProvider;
@@ -9,7 +8,7 @@ import com.hcpark.tobyspring6.payment.ExRateProvider;
 public class SimpleExRateProvider implements ExRateProvider {
 
     @Override
-    public BigDecimal getExchangeRate(String currency) throws IOException {
+    public BigDecimal getExchangeRate(String currency) {
         if(currency.equals("USD")) {
             return BigDecimal.valueOf(1200L);
         }
