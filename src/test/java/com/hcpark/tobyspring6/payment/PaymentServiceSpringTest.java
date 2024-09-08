@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.hcpark.tobyspring6.TestObjectFactory;
+import com.hcpark.tobyspring6.TestPaymentConfig;
 import com.hcpark.tobyspring6.exrate.ExRateProviderStub;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes=TestObjectFactory.class)
+@ContextConfiguration(classes= TestPaymentConfig.class)
 class PaymentServiceSpringTest {
 
     @Autowired
