@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcpark.tobyspring6.payment.ExRateProvider;
 
@@ -17,14 +19,32 @@ public class WebApiExRateProvider implements ExRateProvider {
     private static String TARGET_CURRENCY = "KRW";
 
     @Override
-    public BigDecimal getExchangeRate(String currency) throws IOException {
-        var url = new URL("https://open.er-api.com/v6/latest/" + currency);
-        var connection = (HttpURLConnection) url.openConnection();
-        var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        var response = br.lines().collect(Collectors.joining());
+    public BigDecimal getExchangeRate(String currency) {
 
-        var objectMapper = new ObjectMapper();
-        var exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
+        URI uri;
+        try {
+            uri = new URI("https://open.er-api.com/v6/latest/" + currency);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        String response;
+        try {
+            var connection = (HttpURLConnection) uri.toURL().openConnection();
+            var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            response = br.lines().collect(Collectors.joining());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        ExchangeRateInfo exchangeRateInfo;
+        try {
+            var objectMapper = new ObjectMapper();
+            exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         return exchangeRateInfo.rates().get(TARGET_CURRENCY);
     }
 }
