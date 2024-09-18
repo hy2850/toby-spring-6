@@ -20,24 +20,28 @@ public class WebApiExRateProvider implements ExRateProvider {
 
     @Override
     public BigDecimal getExchangeRate(String currency) {
+        var url = "https://open.er-api.com/v6/latest/" + currency;
+        return getExchangeRateWithApi(url);
+    }
 
+    private static BigDecimal getExchangeRateWithApi(String url) {
         URI uri;
         try {
-            uri = new URI("https://open.er-api.com/v6/latest/" + currency);
+            uri = new URI(url);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
 
         String response;
         try {
-            response = requestExchangeRate(uri);
+            response = executeApi(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         ExchangeRateInfo exchangeRateInfo;
         try {
-            exchangeRateInfo = getExchangeRateFrom(response);
+            exchangeRateInfo = extractExRateFrom(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -45,7 +49,7 @@ public class WebApiExRateProvider implements ExRateProvider {
         return exchangeRateInfo.rates().get(TARGET_CURRENCY);
     }
 
-    private static String requestExchangeRate(URI uri) throws IOException {
+    private static String executeApi(URI uri) throws IOException {
         String response;
         var connection = (HttpURLConnection) uri.toURL().openConnection();
         var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -53,7 +57,7 @@ public class WebApiExRateProvider implements ExRateProvider {
         return response;
     }
 
-    private static ExchangeRateInfo getExchangeRateFrom(String response) throws JsonProcessingException {
+    private static ExchangeRateInfo extractExRateFrom(String response) throws JsonProcessingException {
         ExchangeRateInfo exchangeRateInfo;
         var objectMapper = new ObjectMapper();
         exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
