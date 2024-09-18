@@ -1,17 +1,14 @@
 package com.hcpark.tobyspring6.exrate;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcpark.tobyspring6.api.ApiExecutor;
+import com.hcpark.tobyspring6.api.ErApiExRateExtractor;
 import com.hcpark.tobyspring6.api.ExRateExtractor;
 import com.hcpark.tobyspring6.api.SimpleApiExecutor;
 import com.hcpark.tobyspring6.payment.ExRateProvider;
@@ -25,10 +22,7 @@ public class WebApiExRateProvider implements ExRateProvider {
     public BigDecimal getExchangeRate(String currency) {
         var url = "https://open.er-api.com/v6/latest/" + currency;
 
-        return getExchangeRateWithApi(url, new SimpleApiExecutor(), response -> {
-            var objectMapper = new ObjectMapper();
-            return objectMapper.readValue(response, ExchangeRateInfo.class);
-        });
+        return getExchangeRateWithApi(url, new SimpleApiExecutor(), new ErApiExRateExtractor());
     }
 
     private static BigDecimal getExchangeRateWithApi(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
