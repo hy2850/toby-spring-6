@@ -2,15 +2,19 @@ package com.hcpark.tobyspring6;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import com.hcpark.tobyspring6.order.OrderRepository;
+import com.hcpark.tobyspring6.order.OrderRepositoryWithSpring;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
@@ -41,5 +45,22 @@ public class DataConfig {
     @Bean
     public OrderRepository orderRepository(EntityManagerFactory emf) {
         return new OrderRepository(emf);
+    }
+
+    @Bean
+    public OrderRepositoryWithSpring orderRepositoryWithSpring() {
+        return new OrderRepositoryWithSpring();
+    }
+
+    // JPA @PersistenceContext 관련 후처리
+    @Bean
+    public BeanPostProcessor persistenceAnnotationBeanPostProcessor() {
+        return new PersistenceAnnotationBeanPostProcessor();
+    }
+
+    // Transaction begin commit 자동으로 해주도록 셋팅
+    @Bean
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
     }
 }
