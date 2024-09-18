@@ -29,6 +29,14 @@ public class ApiTemplate {
         return runApiForExRate(url, this.defaultApiExecutor, this.defaultExRateExtractor);
     }
 
+    public BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor) {
+        return runApiForExRate(url, apiExecutor, this.defaultExRateExtractor);
+    }
+
+    public BigDecimal runApiForExRate(String url, ExRateExtractor exRateExtractor) {
+        return runApiForExRate(url, this.defaultApiExecutor, exRateExtractor);
+    }
+
     public BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         URI uri;
         try {
