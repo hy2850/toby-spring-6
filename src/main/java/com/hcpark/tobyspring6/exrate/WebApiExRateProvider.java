@@ -3,14 +3,16 @@ package com.hcpark.tobyspring6.exrate;
 import java.math.BigDecimal;
 
 import com.hcpark.tobyspring6.api.ApiTemplate;
-import com.hcpark.tobyspring6.api.ErApiExRateExtractor;
-import com.hcpark.tobyspring6.api.HttpClientApiExecutor;
 import com.hcpark.tobyspring6.payment.ExRateProvider;
 
 //@Component
 public class WebApiExRateProvider implements ExRateProvider {
 
-    ApiTemplate apiTemplate = new ApiTemplate();
+    private final ApiTemplate apiTemplate;
+
+    public WebApiExRateProvider(ApiTemplate apiTemplate) {
+        this.apiTemplate = apiTemplate;
+    }
 
     @Override
     public BigDecimal getExchangeRate(String currency) {
