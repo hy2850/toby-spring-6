@@ -12,7 +12,7 @@ public class ApiTemplate {
 
     private static String TARGET_CURRENCY = "KRW";
 
-    public static BigDecimal getExchangeRateWithApi(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
+    public BigDecimal getExchangeRateWithApi(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         URI uri;
         try {
             uri = new URI(url);
