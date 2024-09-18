@@ -4,6 +4,8 @@ import java.time.Clock;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
+import org.springframework.http.client.JettyClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.hcpark.tobyspring6.api.ApiTemplate;
@@ -38,7 +40,8 @@ public class PaymentConfig {
 
     @Bean
     public RestTemplate getRestTemplate() {
-        return new RestTemplate();
+//        return new RestTemplate();
+        return new RestTemplate(new JdkClientHttpRequestFactory());
     }
 
     @Bean
