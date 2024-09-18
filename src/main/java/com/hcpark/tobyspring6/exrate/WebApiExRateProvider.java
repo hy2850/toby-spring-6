@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hcpark.tobyspring6.api.SimpleApiExecutor;
 import com.hcpark.tobyspring6.payment.ExRateProvider;
 
 //@Component
@@ -34,7 +35,7 @@ public class WebApiExRateProvider implements ExRateProvider {
 
         String response;
         try {
-            response = executeApi(uri);
+            response = new SimpleApiExecutor().executeApi(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -47,14 +48,6 @@ public class WebApiExRateProvider implements ExRateProvider {
         }
 
         return exchangeRateInfo.rates().get(TARGET_CURRENCY);
-    }
-
-    private static String executeApi(URI uri) throws IOException {
-        String response;
-        var connection = (HttpURLConnection) uri.toURL().openConnection();
-        var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        response = br.lines().collect(Collectors.joining());
-        return response;
     }
 
     private static ExchangeRateInfo extractExRateFrom(String response) throws JsonProcessingException {
