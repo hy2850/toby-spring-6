@@ -25,12 +25,9 @@ public class WebApiExRateProvider implements ExRateProvider {
     public BigDecimal getExchangeRate(String currency) {
         var url = "https://open.er-api.com/v6/latest/" + currency;
 
-        return getExchangeRateWithApi(url, new SimpleApiExecutor(), new ExRateExtractor() {
-            @Override
-            public ExchangeRateInfo extractExRateFrom(String response) throws JsonProcessingException {
-                var objectMapper = new ObjectMapper();
-                return objectMapper.readValue(response, ExchangeRateInfo.class);
-            }
+        return getExchangeRateWithApi(url, new SimpleApiExecutor(), response -> {
+            var objectMapper = new ObjectMapper();
+            return objectMapper.readValue(response, ExchangeRateInfo.class);
         });
     }
 
