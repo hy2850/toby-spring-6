@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.hcpark.tobyspring6.api.ApiTemplate;
 import com.hcpark.tobyspring6.exrate.ExRateProviderStub;
 import com.hcpark.tobyspring6.exrate.WebApiExRateProvider;
 
@@ -28,7 +29,7 @@ class PaymentServiceTest {
     @DisplayName("PaymentService 비즈니스 로직 검증")
     void prepare() {
         // given
-        var paymentService = new PaymentService(new WebApiExRateProvider(), this.clock);
+        var paymentService = new PaymentService(new WebApiExRateProvider(new ApiTemplate()), this.clock);
 
         // when
         var payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
