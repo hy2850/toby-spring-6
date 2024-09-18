@@ -30,21 +30,33 @@ public class WebApiExRateProvider implements ExRateProvider {
 
         String response;
         try {
-            var connection = (HttpURLConnection) uri.toURL().openConnection();
-            var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            response = br.lines().collect(Collectors.joining());
+            response = requestExchangeRate(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         ExchangeRateInfo exchangeRateInfo;
         try {
-            var objectMapper = new ObjectMapper();
-            exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
+            exchangeRateInfo = getExchangeRateFrom(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
         return exchangeRateInfo.rates().get(TARGET_CURRENCY);
+    }
+
+    private static String requestExchangeRate(URI uri) throws IOException {
+        String response;
+        var connection = (HttpURLConnection) uri.toURL().openConnection();
+        var br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        response = br.lines().collect(Collectors.joining());
+        return response;
+    }
+
+    private static ExchangeRateInfo getExchangeRateFrom(String response) throws JsonProcessingException {
+        ExchangeRateInfo exchangeRateInfo;
+        var objectMapper = new ObjectMapper();
+        exchangeRateInfo = objectMapper.readValue(response, ExchangeRateInfo.class);
+        return exchangeRateInfo;
     }
 }
