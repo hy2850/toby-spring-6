@@ -12,6 +12,18 @@ public class ApiTemplate {
 
     private static String TARGET_CURRENCY = "KRW";
 
+    private final ApiExecutor defaultApiExecutor;
+    private final ExRateExtractor defaultExRateExtractor;
+
+    public ApiTemplate() {
+        this.defaultApiExecutor = new HttpClientApiExecutor();
+        this.defaultExRateExtractor = new ErApiExRateExtractor();
+    }
+
+    public BigDecimal runApiForExRate(String url) {
+        return runApiForExRate(url, this.defaultApiExecutor, this.defaultExRateExtractor);
+    }
+
     public BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         URI uri;
         try {
