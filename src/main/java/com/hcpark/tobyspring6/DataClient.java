@@ -2,15 +2,9 @@ package com.hcpark.tobyspring6;
 
 import java.math.BigDecimal;
 
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import com.hcpark.tobyspring6.order.Order;
-import com.hcpark.tobyspring6.order.OrderRepositoryWithSpring;
 import com.hcpark.tobyspring6.order.OrderService;
 
 public class DataClient {
