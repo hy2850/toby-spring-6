@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.orm.jpa.JpaTransactionManager;
 
+import com.hcpark.tobyspring6.data.JpaOrderRepository;
+import com.hcpark.tobyspring6.data.JpaOrderRepositoryWithSpring;
 import com.hcpark.tobyspring6.order.OrderRepository;
-import com.hcpark.tobyspring6.order.OrderRepositoryWithSpring;
 import com.hcpark.tobyspring6.order.OrderService;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -16,17 +17,22 @@ public class OrderConfig {
 
     @Bean
     public OrderService orderService(JpaTransactionManager transactionManager) {
-        return new OrderService(orderRepositoryWithSpring(), transactionManager);
+        return new OrderService(orderRepository(), transactionManager);
     }
 
-    // EntityManagerFactory 빈을 인자로 주입받음
-    @Bean
-    public OrderRepository orderRepository(EntityManagerFactory emf) {
-        return new OrderRepository(emf);
-    }
+//    // EntityManagerFactory 빈을 인자로 주입받음
+//    @Bean
+//    public JpaOrderRepository orderRepository(EntityManagerFactory emf) {
+//        return new JpaOrderRepository(emf);
+//    }
+//
+//    @Bean
+//    public JpaOrderRepositoryWithSpring orderRepositoryWithSpring() {
+//        return new JpaOrderRepositoryWithSpring();
+//    }
 
     @Bean
-    public OrderRepositoryWithSpring orderRepositoryWithSpring() {
-        return new OrderRepositoryWithSpring();
+    public OrderRepository orderRepository() {
+        return new JpaOrderRepositoryWithSpring();
     }
 }

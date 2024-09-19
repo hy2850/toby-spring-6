@@ -9,10 +9,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Service
 public class OrderService {
 
-    private final OrderRepositoryWithSpring orderRepository;
+    private final OrderRepository orderRepository;
     private final JpaTransactionManager transactionManager;
 
-    public OrderService(OrderRepositoryWithSpring orderRepository, JpaTransactionManager transactionManager) {
+    public OrderService(OrderRepository orderRepository, JpaTransactionManager transactionManager) {
         this.orderRepository = orderRepository;
         this.transactionManager = transactionManager;
     }
