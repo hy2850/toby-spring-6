@@ -23,7 +23,6 @@ class OrderServiceSpringTest {
     @Test
     void save() {
         var savedOrder = orderService.createOrder("100", BigDecimal.TEN);
-
         assertThat(savedOrder.getId()).isGreaterThan(0);
     }
 }

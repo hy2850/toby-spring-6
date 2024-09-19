@@ -36,6 +36,10 @@ public class Order {
         return total;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
