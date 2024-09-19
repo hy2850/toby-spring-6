@@ -2,21 +2,15 @@ package com.hcpark.tobyspring6.order;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "orders")
+//@Entity
+//@Table(name = "orders")
 public class Order {
 
-    @Id
-    @GeneratedValue
+//    @Id
+//    @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String no;
 
     private BigDecimal total;
