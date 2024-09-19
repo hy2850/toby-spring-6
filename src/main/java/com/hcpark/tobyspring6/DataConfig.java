@@ -13,8 +13,6 @@ import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcesso
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
-import com.hcpark.tobyspring6.order.OrderRepository;
-import com.hcpark.tobyspring6.order.OrderRepositoryWithSpring;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
@@ -39,17 +37,6 @@ public class DataConfig {
         }});
 
         return emf;
-    }
-
-    // EntityManagerFactory 빈을 인자로 주입받음
-    @Bean
-    public OrderRepository orderRepository(EntityManagerFactory emf) {
-        return new OrderRepository(emf);
-    }
-
-    @Bean
-    public OrderRepositoryWithSpring orderRepositoryWithSpring() {
-        return new OrderRepositoryWithSpring();
     }
 
     // JPA @PersistenceContext 관련 후처리
