@@ -3,6 +3,7 @@ package com.hcpark.tobyspring6;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.orm.jpa.JpaTransactionManager;
 
 import com.hcpark.tobyspring6.order.OrderRepository;
 import com.hcpark.tobyspring6.order.OrderRepositoryWithSpring;
@@ -14,8 +15,8 @@ import jakarta.persistence.EntityManagerFactory;
 public class OrderConfig {
 
     @Bean
-    public OrderService orderService() {
-        return new OrderService(orderRepositoryWithSpring());
+    public OrderService orderService(JpaTransactionManager transactionManager) {
+        return new OrderService(orderRepositoryWithSpring(), transactionManager);
     }
 
     // EntityManagerFactory 빈을 인자로 주입받음
