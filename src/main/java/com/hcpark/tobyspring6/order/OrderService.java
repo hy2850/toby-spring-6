@@ -2,6 +2,8 @@ package com.hcpark.tobyspring6.order;
 
 import java.math.BigDecimal;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -27,5 +29,14 @@ public class OrderService {
             orderRepository.save(newOrder);
             return newOrder;
         });
+    }
+
+    public Order getOrder(Long id) {
+        try {
+            return orderRepository.find(id);
+        } catch (OperationNotSupportedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

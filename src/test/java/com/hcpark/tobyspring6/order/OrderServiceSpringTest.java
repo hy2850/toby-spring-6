@@ -24,5 +24,22 @@ class OrderServiceSpringTest {
     void save() {
         var savedOrder = orderService.createOrder("100", BigDecimal.TEN);
         assertThat(savedOrder.getId()).isGreaterThan(0);
+
+        var savedOrder2 = orderService.createOrder("101", BigDecimal.TEN);
+        assertThat(savedOrder2.getId()).isEqualTo(savedOrder.getId() + 1);
+    }
+
+    @Test
+    void find() {
+        // given
+        var savedOrder = orderService.createOrder("102", BigDecimal.TEN);
+
+        // when
+        var foundOrder = orderService.getOrder(savedOrder.getId());
+
+        // then
+        assertThat(foundOrder.getId()).isEqualTo(savedOrder.getId());
+        assertThat(foundOrder.getNo()).isEqualTo(savedOrder.getNo());
+        assertThat(foundOrder.getTotal()).isEqualByComparingTo(savedOrder.getTotal());
     }
 }

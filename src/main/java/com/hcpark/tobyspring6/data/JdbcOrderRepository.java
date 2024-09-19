@@ -20,7 +20,7 @@ public class JdbcOrderRepository implements OrderRepository {
     void initDB() {
         jdbcClient.sql("""
                 create table orders (id bigint not null, no varchar(255), total number(38,2), primary key (id));
-                create sequence orders_SEQ start with 1 increment by 50
+                create sequence orders_SEQ start with 1 increment by 1
             """).update();
     }
 
@@ -36,5 +36,13 @@ public class JdbcOrderRepository implements OrderRepository {
             .update();
 
         return null;
+    }
+
+    @Override
+    public Order find(Long id) {
+        return jdbcClient.sql("select * from orders where id = ?")
+            .param(id)
+            .query(Order.class)
+            .single();
     }
 }
