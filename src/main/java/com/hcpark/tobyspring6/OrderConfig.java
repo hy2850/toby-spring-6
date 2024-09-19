@@ -5,11 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.orm.jpa.JpaTransactionManager;
 
-import com.hcpark.tobyspring6.data.JpaOrderRepository;
 import com.hcpark.tobyspring6.data.JpaOrderRepositoryWithSpring;
 import com.hcpark.tobyspring6.order.OrderRepository;
 import com.hcpark.tobyspring6.order.OrderService;
-import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
 @Import(DataConfig.class)
