@@ -5,9 +5,13 @@ import static org.assertj.core.api.Assertions.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -20,6 +24,9 @@ class OrderServiceSpringTest {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    DataSource dataSource;
 
     @Test
     void createOrder() {
@@ -42,7 +49,29 @@ class OrderServiceSpringTest {
         var orders = orderService.createOrders(orderReqs);
 
         // then
+        assertThat(orders.size()).isEqualTo(2);
         orders.forEach(order -> assertThat(order.getId()).isGreaterThan(0));
+    }
+
+    @Test
+    void createOrders_duplicate() {
+        // given
+        var no = "200";
+
+        var orderReqs = List.of(
+            new OrderReq(no, BigDecimal.TEN),
+            new OrderReq(no, BigDecimal.TEN)
+        );
+
+        // when, then
+        assertThatThrownBy(() -> orderService.createOrders(orderReqs)).isInstanceOf(DataIntegrityViolationException.class);
+
+        // then
+        var jdbcClient = JdbcClient.create(dataSource);
+        var count = jdbcClient.sql("select count(*) from orders")
+            .query(Long.class)
+            .single();
+        assertThat(count).isEqualTo(0);
     }
 
     @Test

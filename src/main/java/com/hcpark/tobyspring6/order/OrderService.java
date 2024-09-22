@@ -33,7 +33,7 @@ public class OrderService {
     }
 
     public List<Order> createOrders(List<OrderReq> orderReqs) {
-        return null;
+        return orderReqs.stream().map(orderReq -> createOrder(orderReq.no(), orderReq.total())).toList();
     }
 
     public Order getOrder(Long id) {
