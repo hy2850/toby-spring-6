@@ -20,7 +20,9 @@ public class JdbcOrderRepository implements OrderRepository {
     void initDB() {
         jdbcClient.sql("""
                 create table orders (id bigint not null, no varchar(255), total number(38,2), primary key (id));
-                create sequence orders_SEQ start with 1 increment by 1
+                alter table if exists orders drop constraint if exists unique_no_constraint;
+                alter table if exists orders add constraint unique_no_constraint unique (no);
+                create sequence orders_SEQ start with 1 increment by 1;
             """).update();
     }
 
@@ -35,7 +37,7 @@ public class JdbcOrderRepository implements OrderRepository {
             .params(order.getNo(), order.getTotal(), order.getId())
             .update();
 
-        return null;
+        return order;
     }
 
     @Override
