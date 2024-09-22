@@ -1,6 +1,7 @@
 package com.hcpark.tobyspring6.order;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.naming.OperationNotSupportedException;
 
@@ -29,6 +30,10 @@ public class OrderService {
             orderRepository.save(newOrder);
             return newOrder;
         });
+    }
+
+    public List<Order> createOrders(List<OrderReq> orderReqs) {
+        return null;
     }
 
     public Order getOrder(Long id) {

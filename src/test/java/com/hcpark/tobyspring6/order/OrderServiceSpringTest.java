@@ -3,6 +3,7 @@ package com.hcpark.tobyspring6.order;
 import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,12 +22,27 @@ class OrderServiceSpringTest {
     OrderService orderService;
 
     @Test
-    void save() {
+    void createOrder() {
         var savedOrder = orderService.createOrder("100", BigDecimal.TEN);
         assertThat(savedOrder.getId()).isGreaterThan(0);
 
         var savedOrder2 = orderService.createOrder("101", BigDecimal.TEN);
         assertThat(savedOrder2.getId()).isEqualTo(savedOrder.getId() + 1);
+    }
+
+    @Test
+    void createOrders() {
+        // given
+        var orderReqs = List.of(
+            new OrderReq("100", BigDecimal.TEN),
+            new OrderReq("101", BigDecimal.TEN)
+        );
+
+        // when
+        var orders = orderService.createOrders(orderReqs);
+
+        // then
+        orders.forEach(order -> assertThat(order.getId()).isGreaterThan(0));
     }
 
     @Test
