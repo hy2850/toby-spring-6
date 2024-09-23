@@ -6,6 +6,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.hcpark.tobyspring6.order.OrderService;
+import com.hcpark.tobyspring6.order.OrderServiceImpl;
 
 public class DataClient {
     public static void main(String[] args) {
@@ -32,7 +33,7 @@ public class DataClient {
 //            // 예외 처리 비즈니스 로직 여기에
 //        }
 
-        OrderService orderService = beanFactory.getBean(OrderService.class);
+        OrderService orderService = beanFactory.getBean(OrderServiceImpl.class);
         orderService.createOrder("100", BigDecimal.TEN);
     }
 }
