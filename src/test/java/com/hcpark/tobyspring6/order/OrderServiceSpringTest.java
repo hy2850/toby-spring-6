@@ -41,8 +41,8 @@ class OrderServiceSpringTest {
     void createOrders() {
         // given
         var orderReqs = List.of(
-            new OrderReq("100", BigDecimal.TEN),
-            new OrderReq("101", BigDecimal.TEN)
+            new OrderReq("102", BigDecimal.TEN),
+            new OrderReq("103", BigDecimal.TEN)
         );
 
         // when
@@ -68,7 +68,8 @@ class OrderServiceSpringTest {
 
         // then
         var jdbcClient = JdbcClient.create(dataSource);
-        var count = jdbcClient.sql("select count(*) from orders")
+        var count = jdbcClient.sql("select count(*) from orders where no = ?")
+            .param(no)
             .query(Long.class)
             .single();
         assertThat(count).isEqualTo(0);
@@ -77,7 +78,7 @@ class OrderServiceSpringTest {
     @Test
     void find() {
         // given
-        var savedOrder = orderService.createOrder("102", BigDecimal.TEN);
+        var savedOrder = orderService.createOrder("104", BigDecimal.TEN);
 
         // when
         var foundOrder = orderService.getOrder(savedOrder.getId());
